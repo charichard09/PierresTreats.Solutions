@@ -51,4 +51,25 @@ public class FlavorsController : Controller
       .FirstOrDefault(flavor => flavor.FlavorId == id);
     return View(thisFlavor);
   }
+
+  public ActionResult AddTreat(int id)
+  {
+    Flavor thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
+    ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "TreatName");
+    return View(thisFlavor);
+  }
+
+  [HttpPost]
+  public ActionResult AddTreat(Flavor flavor, int treatId)
+  {
+    #nullable enable
+    FlavorTreat? joinEntity =_db.FlavorTreats.FirstOrDefault(join => (join.TreatId == treatId && join.FlavorId == flavor.FlavorId));
+    #nullable disable
+    if (joinEntity == null && treatId != 0)
+    {
+      _db.FlavorTreats.Add(new FlavorTreat() { TreatId = treatId, FlavorId = flavor.FlavorId });
+      _db.SaveChanges();
+    }
+    return RedirectToAction("Details", new { id = flavor.FlavorId});
+  }
 }
