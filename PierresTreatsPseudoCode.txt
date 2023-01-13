@@ -218,12 +218,12 @@ confirm Home Index() controller /w DbSet Treats and Flavors in a Dictionary pass
 
 > complete README.md
 
-NON-MVP:
+NON-MVP/Further Exploration:
 
 // add individual User association to allow Update and Delete functionality to only Treats and Flavors they created 
 // (see Lesson 9 of Auth.. with Identity)
 
-
+Reading Overview of ASP.NET Core authentication
 
 
 
