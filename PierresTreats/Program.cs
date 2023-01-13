@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using ToDoList.Models;
+using PierresTreats.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace ToDoList
+namespace PierresTreats
 {
   class Program
   {
@@ -24,7 +24,7 @@ namespace ToDoList
                       );
       
       builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ToDoListContext>()
+                .AddEntityFrameworkStores<PierresTreatsContext>()
                 .AddDefaultTokenProviders();
 
       builder.Services.Configure<IdentityOptions>(options =>

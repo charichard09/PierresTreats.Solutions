@@ -36,14 +36,18 @@ The prompt’s required functionality and baseline project requirements are in p
 > add Program.cs, 
 	copy boiler plate code over
 		update builder.Services.AddDbContext<T>... where T is PierresTreatsContext
+			update builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<T>()
 	
 // database context
 > create PierresTreatsContext.cs /w DbSet<Treat> Treats, DbSet<Flavor> Flavors, DbSet<FlavorTreat> FlavorTreats
-
+				
 // create entities
 > create Flavor.cs entity /w properties FlavorId, FlavorName, List<FlavorTreat> JoinEntities  
+	add model validation with data annotation [Required(ErrorMessage = "string")] for FlavorName
 	
 > create Treat.cs entity /w properties TreatId, TreatName, List<FlavorTreat> JoinEntities  
+	add model validation with data annotation [Required(ErrorMessage = "string")] for TreatName 
 
 > create FlavorTreat.cs join entity /w FlavorTreatId, FlavorId, Flavor, TreatId, Treat
 
@@ -72,11 +76,12 @@ The prompt’s required functionality and baseline project requirements are in p
 	confirm view
 
 	create Create() action
-		create Create.cshtml /w form
+		create Create.cshtml /w form /w HtmlHelper method ValidationMessageFor
 
 	create [HttpPost] Create() action
 	
-	confirm index view shows created object
+	confirm model validation works by entering empty field
+		confirm index view shows created object
 
 	create Details() action
 		create Details.cshtml 
@@ -90,11 +95,12 @@ The prompt’s required functionality and baseline project requirements are in p
 	confirm view
 
 	create Create() action
-		create Create.cshtml /w form
+		create Create.cshtml /w form /w HtmlHelper method ValidationMessageFor
 
 	create [HttpPost] Create() action
-	
-	confirm index view shows created object
+		
+	confirm model validation works by entering empty field
+		confirm index view shows created object
 
 	create Details() action
 		create Details.cshtml 
@@ -120,12 +126,6 @@ The prompt’s required functionality and baseline project requirements are in p
 	confirm adding a treat to a flavor on a flavor's details page
 	
 > add conditional to Details.cshtml for Flavors Views checking IF @Model.JoinEntities.Treats == 0, display disabled button "No treats to give a flavor", ELSE display active button "add flavor to treat" 
-	
-> add model validation with data annotation [Required(ErrorMessage = "string")] for TreatName entity property in Treat.cs
-	add HtmlHelper method ValidationMessageFor to Treats/Create
-		add model validation with data annotation [Required(ErrorMessage = "string")] for FlavorName entity property in Flavor.cs
-			add HtmlHelper method ValidationMessageFor to Flavors/Create
-				confirm working by entering blank name for both
 		
 > add to TreatsController
 	
@@ -214,6 +214,7 @@ add to HomeController.cs Index() controller DbSet Treats and Flavors in a Dictio
 
 				
 > comment IN password default in Program.cs and remove password default override
+> comment IN data annotation [RegularExpression] in RegisterViewModel.cs
 
 > complete README.md
 
