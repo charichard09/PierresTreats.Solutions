@@ -72,4 +72,25 @@ public class FlavorsController : Controller
     }
     return RedirectToAction("Details", new { id = flavor.FlavorId});
   }
+
+  public ActionResult Edit(int id)
+  {
+    Flavor thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
+    return View(thisFlavor);
+  }
+
+  [HttpPost]
+  public ActionResult Edit(Flavor flavor)
+  {
+    if (!ModelState.IsValid)
+    {
+      return View(flavor);
+    }
+    else
+    {
+      _db.Flavors.Update(flavor);
+      _db.SaveChanges();
+      return RedirectToAction("Details", new { id = flavor.FlavorId });
+    }
+  }
 }

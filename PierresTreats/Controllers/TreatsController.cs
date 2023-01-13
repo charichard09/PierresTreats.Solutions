@@ -73,26 +73,26 @@ public class TreatsController : Controller
     return RedirectToAction("Details", new { id = treat.TreatId});
   }
 
-  // public ActionResult Edit(int id)
-  // {
-  //   Engineer thisEngineer = _db.Engineers.FirstOrDefault(engineer => engineer.EngineerId == id);
-  //   return View(thisEngineer);
-  // }
+  public ActionResult Edit(int id)
+  {
+    Treat thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
+    return View(thisTreat);
+  }
 
-  // [HttpPost]
-  // public ActionResult Edit(Engineer engineer)
-  // {
-  //   if (!ModelState.IsValid)
-  //   {
-  //     return View(engineer);
-  //   }
-  //   else
-  //   {
-  //     _db.Entry(engineer).State = EntityState.Modified;
-  //     _db.SaveChanges();
-  //     return RedirectToAction("Details", new { id = engineer.EngineerId });
-  //   }
-  // }
+  [HttpPost]
+  public ActionResult Edit(Treat treat)
+  {
+    if (!ModelState.IsValid)
+    {
+      return View(treat);
+    }
+    else
+    {
+      _db.Treats.Update(treat);
+      _db.SaveChanges();
+      return RedirectToAction("Details", new { id = treat.TreatId });
+    }
+  }
 
   // public ActionResult Delete(int id)
   // {
