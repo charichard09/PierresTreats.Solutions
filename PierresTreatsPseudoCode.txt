@@ -38,6 +38,8 @@ The prompt’s required functionality and baseline project requirements are in p
 		update builder.Services.AddDbContext<T>... where T is PierresTreatsContext
 			update builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<T>()
+				
+> double check Program.cs has all neccessary Identity Service setups and app.UseAuth...
 	
 // database context
 > create PierresTreatsContext.cs /w DbSet<Treat> Treats, DbSet<Flavor> Flavors, DbSet<FlavorTreat> FlavorTreats
@@ -167,12 +169,10 @@ The prompt’s required functionality and baseline project requirements are in p
 		add delete button for every Treat on an individual Flavor's Details page
 			confirm deletion of a Treat attached to a Flavor
 			
-add to HomeController.cs Index() controller DbSet Treats and Flavors in a Dictionary into View
-		finish adding to Treats and Flavors h4 tags on Index.cshtml display all Treats and Flavors as ActionLinks
+confirm Home Index() controller /w DbSet Treats and Flavors in a Dictionary passes into View
+	Treats and Flavors in h4 tags on Index.cshtml display all Treats and Flavors as ActionLinks
 	
 // adding login and registration	
-
-> double check Program.cs has all neccessary Identity Service setups and app.UseAuth...
 
 > create AccountController.cs and Views
 	
