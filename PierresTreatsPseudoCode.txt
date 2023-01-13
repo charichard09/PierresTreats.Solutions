@@ -29,31 +29,34 @@ The prompt’s required functionality and baseline project requirements are in p
 
 
 
+// appsettings.json
+> create and update appsettings.json with db name
 
-> update appsettings.json with db name
-
-// in Program.cs, update builder.Services.AddDbContext<T>... where T is FactoryContext
-
+// Program.cs
+> add Program.cs, 
+	copy boiler plate code over
+		update builder.Services.AddDbContext<T>... where T is PierresTreatsContext
+	
 // database context
-> create FactoryContext.cs /w DbSet<Engineer> Engineers, DbSet<Machine> Machines, DbSet<EngineerMachine> JoinEntities
+> create PierresTreatsContext.cs /w DbSet<Treat> Treats, DbSet<Flavor> Flavors, DbSet<FlavorTreat> FlavorTreats
 
 // create entities
-> create Engineer.cs entity /w properties EngineerId, Name, List<EngineerMachine> JoinEntities  
+> create Flavor.cs entity /w properties FlavorId, FlavorName, List<FlavorTreat> JoinEntities  
 	
-> create Machine.cs entity /w properties MachineId, Name, List<EngineerMachine> JoinEntities  
+> create Treat.cs entity /w properties TreatId, TreatName, List<FlavorTreat> JoinEntities  
 
-> create EngineerMachine.cs join entity /w EngineerMachineId, EngineerId, Engineer, MachineId, Machine
+> create FlavorTreat.cs join entity /w FlavorTreatId, FlavorId, Flavor, TreatId, Treat
 
-// run dotnet ef migrations add Initial, database update, confirm table is created
+> run dotnet ef migrations add Initial, database update, confirm table is created
 	
 // create controller and corresponding views
 > create HomeController and Views:
 	create Index() action
-		create Index.cshtml /w "Welcome to Dr. Sillystringz's Facotry 
-			<h4>Engineers</h4> <h4>Machines</4> place holders
+		create Index.cshtml /w "Welcome to Pierre's Sweet and Savory Treats"
+			<h4>Treats</h4> <h4>Flavors</4> place holders
 				confirm view
 
-> create EngineersController.cs and Views:
+> create TreatsController.cs and Views:
 	create Index() action
 		create Index.cshtml 
 		
@@ -71,7 +74,7 @@ The prompt’s required functionality and baseline project requirements are in p
 	
 	confirm index shows object details
 
-> create MachinesController.cs and Views
+> create FlavorsController.cs and Views
 	create Index() action
 		create Index.cshtml 
 		
@@ -89,33 +92,53 @@ The prompt’s required functionality and baseline project requirements are in p
 	
 	confirm index shows object details
 	
-> add to EngineersController.cs and Views:
-	create AddMachine() action
-		create AddMachine.cshtml form
+> add to TreatsController.cs and Views:
+	create AddFlavor() action
+		create AddFlavor.cshtml form
 		
-	create [HttpPost] AddMachine() action
+	create [HttpPost] AddFlavor() action
 	
-	confirm adding machine to engineer and seeing on engineers details page
+	confirm adding flavor to treat on a treat's details page
 	
-> add conditional to Details.cshtml for Engineer Views checking IF @Model.JoinEntities.Machines == 0, display disabled button "No machines to assign", ELSE display active button "assign machine"  
+> add conditional to Details.cshtml for Treat's Views checking IF @Model.JoinEntities.Flavors == 0, display disabled button "No flavors to assign", ELSE display active button "add a flavor"  
 	
-> add to MachinesController.cs and Views:
-	create AddEngineer() action
-		create AddEngineer.cshtml form
+> add to FlavorsController.cs and Views:
+	create AddTreat() action
+		create AddTreat.cshtml form
 		
-	create [HttpPost] AddEngineer() action
+	create [HttpPost] AddTreat() action
 	
-	confirm adding engineer to machine and seeing on a machines details page
+	confirm adding a treat to a flavor on a flavor's details page
 	
-> add conditional to Details.cshtml for Machines Views checking IF @Model.JoinEntities.Engineers == 0, display disabled button "No engineers to assign", ELSE display active button "assign engineer" 
+> add conditional to Details.cshtml for Flavors Views checking IF @Model.JoinEntities.Treats == 0, display disabled button "No treats to give a flavor", ELSE display active button "add flavor to treat" 
 	
-> add model validation with data annotation [Required(ErrorMessage = "string")] for Name entity property in Engineer.cs
-	add HtmlHelper method ValidationMessageFor to Engineers/Create
-		add model validation with data annotation [Required(ErrorMessage = "string")] for Name entity property in Machine.cs
-			add HtmlHelper method ValidationMessageFor to Machines/Create
+> add model validation with data annotation [Required(ErrorMessage = "string")] for TreatName entity property in Treat.cs
+	add HtmlHelper method ValidationMessageFor to Treats/Create
+		add model validation with data annotation [Required(ErrorMessage = "string")] for FlavorName entity property in Flavor.cs
+			add HtmlHelper method ValidationMessageFor to Flavors/Create
 				confirm working by entering blank name for both
 		
-> add to EngineersController
+> add to TreatsController
+	
+	create Edit() action
+		create Edit.cshtml form
+			confirm form view is working
+
+	create [HttpPost] Edit() action
+		confirm form succesfully updates
+
+	create Delete() action
+		create Delete.cshtml confirmation page
+			confirm confirmation page view works
+		
+	create [HttpPost, ActionName("Delete")] Delete() action
+		confirm deletion of a Treat
+	
+	create [HttpPost] DeleteJoin() action
+		add delete button for every Flavor on an individual Treat's Details page
+			confirm deletion of a flavor attached to a treat
+	
+> add to FlavorsController
 	
 	create Edit() action
 		create Edit.cshtml form
@@ -129,34 +152,14 @@ The prompt’s required functionality and baseline project requirements are in p
 			confirm confirmation page view works
 		
 	create [HttpPost, ActioName("Delete")] Delete() action
-		confirm deletion of an Engineer
+		confirm deletion of a Flavor
 	
 	create [HttpPost] DeleteJoin() action
-		add delete button for every Machine on an individual Engineer's Details page
-			confirm deletion of a machine attached to an engineer
-	
-> add to MachinesController
-	
-	create Edit() action
-		create Edit.cshtml form
-			confirm form view is working
-
-	create [HttpPost] Edit() action
-		confirm form succesfully updates
-
-	create Delete() action
-		create Delete.cshtml confirmation page
-			confirm confirmation page view works
-		
-	create [HttpPost, ActioName("Delete")] Delete() action
-		confirm deletion of a Machine
-	
-	create [HttpPost] DeleteJoin() action
-		add delete button for every Engineer on an individual Machine's Details page
-			confirm deletion of an engineer attached to a machine
+		add delete button for every Treat on an individual Flavor's Details page
+			confirm deletion of a Treat attached to a Flavor
 			
-add to HomeController.cs Index() controller DbSet Machines and Engineers in a Dictionary into View
-		finish adding to Machines and Engineers tags to display all Machines and Engineers as ActionLinks
+add to HomeController.cs Index() controller DbSet Treats and Flavors in a Dictionary into View
+		finish adding to Treats and Flavors h4 tags on Index.cshtml display all Treats and Flavors as ActionLinks
 	
 	
 	
@@ -169,4 +172,4 @@ add to HomeController.cs Index() controller DbSet Machines and Engineers in a Di
 
 > dotnet ef migration add AddIdentity and update
 
-> 
+> complete README.md
