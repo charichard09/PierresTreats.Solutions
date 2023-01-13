@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace PierresTreats.Controllers;
 
+[Authorize]
 public class FlavorsController : Controller
 {
   private readonly PierresTreatsContext _db;
@@ -17,6 +19,7 @@ public class FlavorsController : Controller
     _db = db;
   }
   
+  [AllowAnonymous]
   public ActionResult Index()
   {
     return View(_db.Flavors.ToList());
@@ -42,6 +45,7 @@ public class FlavorsController : Controller
     }
   }
 
+  [AllowAnonymous]
   public ActionResult Details(int id)
   {
     ViewBag.Treats = _db.Treats.ToList();
@@ -107,5 +111,14 @@ public class FlavorsController : Controller
     _db.Flavors.Remove(thisFlavor);
     _db.SaveChanges();
     return RedirectToAction("Index");
+  }
+
+  [HttpPost]
+  public ActionResult DeleteTreat(int joinId)
+  {
+    FlavorTreat joinEntry = _db.FlavorTreats.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
+    _db.FlavorTreats.Remove(joinEntry);
+    _db.SaveChanges();
+    return RedirectToAction("Details", new { id = joinEntry.FlavorId });
   }
 }

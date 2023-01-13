@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace PierresTreats.Controllers;
 
+[Authorize]
 public class TreatsController : Controller
 {
   private readonly PierresTreatsContext _db;
@@ -17,6 +19,7 @@ public class TreatsController : Controller
     _db = db;
   }
   
+  [AllowAnonymous]
   public ActionResult Index()
   {
     return View(_db.Treats.ToList());
@@ -42,6 +45,7 @@ public class TreatsController : Controller
     }
   }
 
+  [AllowAnonymous]
   public ActionResult Details(int id)
   {
     ViewBag.Flavors = _db.Flavors.ToList();
@@ -109,12 +113,12 @@ public class TreatsController : Controller
     return RedirectToAction("Index");
   }
 
-  // [HttpPost]
-  // public ActionResult DeleteMachine(int joinId)
-  // {
-  //   EngineerMachine joinEntry = _db.EngineerMachines.FirstOrDefault(entry => entry.EngineerMachineId == joinId);
-  //   _db.EngineerMachines.Remove(joinEntry);
-  //   _db.SaveChanges();
-  //   return RedirectToAction("Details", new { id = joinEntry.EngineerId });
-  // }
+  [HttpPost]
+  public ActionResult DeleteFlavor(int joinId)
+  {
+    FlavorTreat joinEntry = _db.FlavorTreats.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
+    _db.FlavorTreats.Remove(joinEntry);
+    _db.SaveChanges();
+    return RedirectToAction("Details", new { id = joinEntry.TreatId });
+  }
 }
