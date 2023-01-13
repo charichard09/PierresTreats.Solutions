@@ -47,6 +47,15 @@ The prompt’s required functionality and baseline project requirements are in p
 
 > create FlavorTreat.cs join entity /w FlavorTreatId, FlavorId, Flavor, TreatId, Treat
 
+> create ApplicationUser.cs entity 
+	inherit : IdentityUser
+	
+> create a ViewModels folder 
+	create RegisterViewModel.cs /w Email, Password, ConfirmPassword and data annotations
+
+	create LoginViewModel.cs /w Email, Password and data annotations
+
+
 > run dotnet ef migrations add Initial, database update, confirm table is created
 	
 // create controller and corresponding views
@@ -161,15 +170,114 @@ The prompt’s required functionality and baseline project requirements are in p
 add to HomeController.cs Index() controller DbSet Treats and Flavors in a Dictionary into View
 		finish adding to Treats and Flavors h4 tags on Index.cshtml display all Treats and Flavors as ActionLinks
 	
-	
-	
-//post Friday project expanding next lesson on adding login and registration	
-
-> Add ApplicationUser.cs to Models
-	inherit : IdentityUser
+// adding login and registration	
 
 > double check Program.cs has all neccessary Identity Service setups and app.UseAuth...
 
-> dotnet ef migration add AddIdentity and update
+> create AccountController.cs and Views
+	
+	create Index() action 
+		
+	create Register()IAction
+
+	create [HttpPost] async Register() action 
+
+	create Views/Account/Regiser.cshtml
+	
+	confirm register page throws errors when empty
+	
+	create Index.cshtml
+	
+	create Login.cshtml
+	
+	create Login() action
+	
+	create [HttpPost] async Login() action
+	
+	create [HttpPost] async LogOff() action
+	
+	comment IN password default override in Program.cs
+		check if creating account un:test@test.com pw: test gets created
+			check if login works
+				check if Index.cshtml shows welcome msg for test@test.com
+					check if logoff works
+	
+// add Authorization
+> add [Authorize] attribute to TreatsController and FlavorsController /w using Microsoft.AspNetCore.Authorization;
+
+> add [AllowAnonymous] above Index() and Details() actions in both controllers
+	confirm going to Index.cshtml of Treats and Flavors shows all treats and flavors when not logged in, 
+		confirm when click on a Treat and navigating to Details works, but clicking add, update, or delete does not 
+			do same for Flavor
+				log in and confirm clicking a Treats Details and adding, updating, and deleting work
+					do same for Flavor
+
+				
+> comment IN password default in Program.cs and remove password default override
 
 > complete README.md
+
+NON-MVP:
+
+// add individual User association to allow Update and Delete functionality to only Treats and Flavors they created 
+// (see Lesson 9 of Auth.. with Identity)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
