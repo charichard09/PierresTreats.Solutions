@@ -22,35 +22,35 @@ public class TreatsController : Controller
     return View(_db.Treats.ToList());
   }
 
-  // public ActionResult Create()
-  // {
-  //   return View();
-  // }
+  public ActionResult Create()
+  {
+    return View();
+  }
 
-  // [HttpPost]
-  // public ActionResult Create(Engineer engineer)
-  // {
-  //   if (!ModelState.IsValid)
-  //   {
-  //     return View(engineer);
-  //   }
-  //   else
-  //   {
-  //     _db.Engineers.Add(engineer);
-  //     _db.SaveChanges();
-  //     return RedirectToAction("Index");
-  //   }
-  // }
+  [HttpPost]
+  public ActionResult Create(Treat treat)
+  {
+    if (!ModelState.IsValid)
+    {
+      return View(treat);
+    }
+    else
+    {
+      _db.Treats.Add(treat);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+  }
 
-  // public ActionResult Details(int id)
-  // {
-  //   ViewBag.Machines = _db.Machines.ToList();
-  //   Engineer thisEngineer = _db.Engineers
-  //     .Include(engineer => engineer.JoinEntities)
-  //     .ThenInclude(join => join.Machine)
-  //     .FirstOrDefault(engineer => engineer.EngineerId == id);
-  //   return View(thisEngineer);
-  // }
+  public ActionResult Details(int id)
+  {
+    ViewBag.Flavors = _db.Flavors.ToList();
+    Treat thisTreat = _db.Treats
+      .Include(treat => treat.JoinEntities)
+      .ThenInclude(join => join.Flavor)
+      .FirstOrDefault(treat => treat.TreatId == id);
+    return View(thisTreat);
+  }
 
   // public ActionResult AddMachine(int id)
   // {
